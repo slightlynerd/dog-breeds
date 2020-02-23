@@ -1,18 +1,53 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container-fluid mt-4">
+    <h2>Dog breeds</h2>
+    <p>Just because we ❤️️ dogs!</p>
+    <div class="text-center" v-if="loading">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div class="row">
+      <div v-for="(breed, index) in breeds" :key="index" class="col-md-4 col-lg-3 my-2">
+        <router-link :to="`/breeds/${breed}`">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">{{ breed }}</div>
+          </div>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      breeds: [],
+      loading: false,
+    };
+  },
+  async mounted() {
+    this.loading = true;
+    try {
+      const response = await fetch('https://dog.ceo/api/breeds/list/all');
+      const { message } = await response.json();
+      this.breeds = Object.keys(message);
+      this.loading = false;
+    } catch (error) {
+      console.log(error);
+      this.loading = false;
+    }
   },
 };
 </script>
+
+<style scoped>
+a {
+  color: inherit;
+  text-transform: capitalize;
+  text-align: center;
+}
+</style>
