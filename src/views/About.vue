@@ -40,7 +40,6 @@ export default {
       this.dogs = message;
       this.loading = false;
     } catch (error) {
-      console.log(error);
       this.loading = false;
     }
   },

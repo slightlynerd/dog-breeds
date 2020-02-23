@@ -37,7 +37,6 @@ export default {
       this.breeds = Object.keys(message);
       this.loading = false;
     } catch (error) {
-      console.log(error);
       this.loading = false;
     }
   },
